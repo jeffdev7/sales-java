@@ -3,9 +3,13 @@ package com.jago.dsmeta.controller;
 import com.jago.dsmeta.entities.Sale;
 import com.jago.dsmeta.services.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import java.util.List;
 
@@ -17,7 +21,11 @@ public class SaleController {
     private SaleService _service;
 
     @GetMapping
-    public List<Sale> findSales(){
-        return _service.findSales();
+    public Page<Sale> findSales(@RequestParam(value="minDate", defaultValue = "")
+                                    String minDate,
+                                @RequestParam(value="maxDate", defaultValue = "")
+                                String maxDate,
+                                Pageable pageable){
+        return _service.findSales(minDate, maxDate, pageable);
     };
 }
